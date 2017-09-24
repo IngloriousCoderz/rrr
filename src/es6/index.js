@@ -18,10 +18,29 @@ const sayHowdy = who => `Howdy ${who}!!!`
 const printHowdy = printGreeting(sayHowdy)
 whos.forEach(printHowdy)
 
-const fetchStarWarsCharacter = (id = 1) =>
-  fetch(`https://swapi.co/api/people/${id}`)
+const handleErrors = (type, id) => response => {
+  if (!response.ok) {
+    console.warn(`${type} - ${id} not found`)
+    // throw new Error(`${response.status} - ${response.statusText}`)
+  }
+  return response
+}
+
+const fetchStarWarsData = type => (id = 1) =>
+  fetch(`https://swapi.co/api/${type}/${id}`)
+    .then(handleErrors(type, id))
     .then(response => response.json())
-    .then(console.log)
-    .catch(alert)
+
+const fetchStarWarsCharacter = fetchStarWarsData('people')
+
+const fetchStarWarsStarship = fetchStarWarsData('starships')
 
 fetchStarWarsCharacter(2)
+  .then(console.log)
+  .catch(alert)
+
+const promises = [1, 2, 3].map(fetchStarWarsStarship)
+
+Promise.all(promises)
+  .then(console.log)
+  .catch(console.warn)
