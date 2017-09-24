@@ -35,19 +35,32 @@ const fetchStarWarsCharacter = fetchStarWarsData('people')
 
 const fetchStarWarsStarship = fetchStarWarsData('starships')
 
-fetchStarWarsCharacter(2)
-  .then(console.log)
-  .catch(alert)
+async function fetchC3PO() {
+  try {
+    const c3po = await fetchStarWarsCharacter(2)
+    console.log(c3po)
+  } catch (error) {
+    alert(error)
+  }
+}
 
-const promises = [1, 2, 3].map(fetchStarWarsStarship)
+fetchC3PO()
 
-Promise.all(promises)
-  .then(starships => starships.filter(({ name }) => name != null))
-  .then(starships =>
-    starships.reduce(
-      (total, { cost_in_credits }) => (total += parseInt(cost_in_credits)),
+const totalCostOfStarships = async (...ids) => {
+  const promises = ids.map(fetchStarWarsStarship)
+
+  try {
+    const responses = await Promise.all(promises)
+    const starships = responses.filter(({ name }) => name != null)
+    const total = starships.reduce(
+      (total, { cost_in_credits }) => (total += parseInt(cost_in_credits, 10)),
       0
     )
-  )
-  .then(console.log)
-  .catch(console.warn)
+
+    console.log(total)
+  } catch (error) {
+    console.warn(error)
+  }
+}
+
+totalCostOfStarships(1, 2, 3)
