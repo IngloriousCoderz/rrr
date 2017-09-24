@@ -81,3 +81,36 @@ it
     console.log(`Total cost: ${total}`)
   })
   .then(() => console.log(`All done:  ${it.next().done}`))
+
+const NEW_METHOD = 'sayMyAgeInDogYears'
+
+const person = {
+  age: 0,
+
+  sayMyAge() {
+    return `My age is ${this.age}`
+  },
+
+  get ageInDogYears() {
+    return Math.round(this.age / 7 * 10) / 10
+  },
+
+  set ageInDogYears(age) {
+    this.age = age * 7
+  },
+
+  [NEW_METHOD]() {
+    return `If I was a dog it would be about ${this.ageInDogYears} years`
+  },
+
+  printGreeting
+}
+
+person.age = 34
+console.log(person.sayMyAge())
+console.log(person.sayMyAgeInDogYears())
+
+person.ageInDogYears = 1.8
+console.log(person.sayMyAge())
+
+person.printGreeting(sayHowdy)('neighbours')
