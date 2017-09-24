@@ -42,5 +42,12 @@ fetchStarWarsCharacter(2)
 const promises = [1, 2, 3].map(fetchStarWarsStarship)
 
 Promise.all(promises)
+  .then(starships => starships.filter(({ name }) => name != null))
+  .then(starships =>
+    starships.reduce(
+      (total, { cost_in_credits }) => (total += parseInt(cost_in_credits)),
+      0
+    )
+  )
   .then(console.log)
   .catch(console.warn)
