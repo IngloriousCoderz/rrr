@@ -46,21 +46,38 @@ async function fetchC3PO() {
 
 fetchC3PO()
 
-const totalCostOfStarships = async (...ids) => {
+function* totalCostOfStarships(...ids) {
   const promises = ids.map(fetchStarWarsStarship)
 
   try {
-    const responses = await Promise.all(promises)
-    const starships = responses.filter(({ name }) => name != null)
+    const responses = yield Promise.all(promises)
+    const starships = yield responses.filter(({ name }) => name != null)
     const total = starships.reduce(
       (total, { cost_in_credits }) => (total += parseInt(cost_in_credits, 10)),
       0
     )
 
-    console.log(total)
+    return total
   } catch (error) {
     console.warn(error)
   }
 }
 
-totalCostOfStarships(1, 2, 3)
+const it = totalCostOfStarships(1, 2, 3)
+
+it
+  .next()
+  .value.then(responses => {
+    console.log(`Responses:  ${responses}`)
+    return responses
+  })
+  .then(responses => it.next(responses).value)
+  .then(starships => {
+    console.log(`Starships:  ${starships}`)
+    return starships
+  })
+  .then(starships => it.next(starships).value)
+  .then(total => {
+    console.log(`Total cost: ${total}`)
+  })
+  .then(() => console.log(`All done:  ${it.next().done}`))
