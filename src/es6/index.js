@@ -1,7 +1,4 @@
-import printHello, { sayHello } from './static-module'
-
-console.error(sayHello())
-printHello('universe')
+import printGreeting, { sayHello, sayGoodbye } from './static-module'
 
 import('./dynamic-module').then(module => {
   const sayHello = module.sayHello
@@ -9,3 +6,7 @@ import('./dynamic-module').then(module => {
   console.warn(sayHello())
   printHello('omniverse')
 })
+
+console.error(sayHello())
+printGreeting(sayHello, 'universe')
+printGreeting(sayGoodbye, 'cruel world')
