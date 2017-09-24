@@ -1,10 +1,11 @@
 import printGreeting, { sayHello, sayGoodbye } from './static-module'
 
-import('./dynamic-module').then(module => {
-  const sayHello = module.sayHello
-  const printHello = module.default
+import('./dynamic-module').then(({ sayHello, default: printHello }) => {
   console.warn(sayHello())
-  printHello('omniverse')
+  const whos = ['omniverse', 'megaverse', 'ultraverse']
+  const [first, ...rest] = whos
+  printGreeting(sayGoodbye, first)
+  rest.forEach(printHello)
 })
 
 console.error(sayHello())
