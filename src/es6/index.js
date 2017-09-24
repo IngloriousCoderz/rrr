@@ -17,3 +17,11 @@ const sayHowdy = who => `Howdy ${who}!!!`
 
 const printHowdy = printGreeting(sayHowdy)
 whos.forEach(printHowdy)
+
+const fetchStarWarsCharacter = (id = 1) =>
+  fetch(`https://swapi.co/api/people/${id}`)
+    .then(response => response.json())
+    .then(console.log)
+    .catch(alert)
+
+fetchStarWarsCharacter(2)
