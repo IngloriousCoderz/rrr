@@ -14,6 +14,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "eslint-config-react-app": "^2.0.0",
     "flow-bin": "^0.55.0"
   }
 }

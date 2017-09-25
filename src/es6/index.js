@@ -1,17 +1,17 @@
-// @flow
-
 import printGreeting, { sayHello, sayGoodbye } from './static-module'
 
-const whos: Array<string> = ['omniverse', 'megaverse', 'ultraverse']
+const whos = ['omniverse', 'megaverse', 'ultraverse']
 
-import('./dynamic-module').then(
-  ({ sayHello: Function, default: printHello }) => {
-    console.warn(sayHello())
-    const [first: string, ...rest: Array<string>] = whos
-    printGreeting(sayGoodbye)(first)
-    rest.forEach(printHello)
-  }
-)
+let unused = 'Remove me'
+
+whos = 2
+
+import('./dynamic-module').then(({ sayHello, default: printHello }) => {
+  console.warn(sayHello())
+  const [first, ...rest] = whos
+  printGreeting(sayGoodbye)(first)
+  rest.forEach(printHello)
+})
 
 console.error(sayHello())
 printGreeting(sayHello)('universe')
@@ -31,7 +31,7 @@ const handleErrors = (type, id) => response => {
   return response
 }
 
-const fetchStarWarsData = (type: string) => (id: number = 1): Promise<Object> =>
+const fetchStarWarsData = type => (id = 1) =>
   fetch(`https://swapi.co/api/${type}/${id}`)
     .then(handleErrors(type, id))
     .then(response => response.json())
@@ -40,7 +40,7 @@ const fetchStarWarsCharacter = fetchStarWarsData('people')
 
 const fetchStarWarsStarship = fetchStarWarsData('starships')
 
-async function fetchC3PO(): Promise<void> {
+async function fetchC3PO() {
   try {
     const c3po = await fetchStarWarsCharacter(2)
     return c3po
@@ -51,15 +51,13 @@ async function fetchC3PO(): Promise<void> {
 
 fetchC3PO().then(console.log)
 
-function* totalCostOfStarships(...ids: Array<number>) {
-  const promises: Array<Promise<Object>> = ids.map(fetchStarWarsStarship)
+function* totalCostOfStarships(...ids) {
+  const promises = ids.map(fetchStarWarsStarship)
 
   try {
-    const responses: Array<Object> = yield Promise.all(promises)
-    const starships: Array<Object> = yield responses.filter(
-      ({ name }) => name != null
-    )
-    const total: number = starships.reduce(
+    const responses = yield Promise.all(promises)
+    const starships = yield responses.filter(({ name }) => name != null)
+    const total = starships.reduce(
       (total, { cost_in_credits }) => (total += parseInt(cost_in_credits, 10)),
       0
     )
@@ -70,11 +68,7 @@ function* totalCostOfStarships(...ids: Array<number>) {
   }
 }
 
-const it: Generator<
-  Array<Object>,
-  number,
-  Array<Object>
-> = totalCostOfStarships(1, 2, 3)
+const it = totalCostOfStarships(1, 2, 3)
 
 it
   .next()
