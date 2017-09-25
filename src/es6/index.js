@@ -114,3 +114,48 @@ person.ageInDogYears = 1.8
 console.log(person.sayMyAge())
 
 person.printGreeting(sayHowdy)('neighbours')
+
+class Person {
+  _age = 0
+
+  constructor(age) {
+    this._age = age || this._age
+  }
+
+  get age() {
+    return this._age
+  }
+
+  set age(age) {
+    this._age = age
+    return this
+  }
+
+  calculateAgeInDogYears() {
+    return Math.round(this._age / 7 * 10) / 10
+  }
+}
+
+const me = new Person(34)
+console.log(`My age in dog years is ${me.calculateAgeInDogYears()}`)
+
+class Woman extends Person {
+  get age() {
+    return this._age >= 30 ? 29 : super.age
+  }
+
+  set age(age) {
+    super.age = age
+  }
+
+  calculateAgeInDogYears() {
+    return 'WHAT?!'
+  }
+}
+
+const wife = new Woman()
+wife.age = 31
+console.log(`My wife's age is ${wife.age}`)
+console.log(
+  `When asked her age in dog years she replied '${wife.calculateAgeInDogYears()}'`
+)
