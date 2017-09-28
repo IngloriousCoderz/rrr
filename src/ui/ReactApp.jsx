@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Form from './components/Form'
+import Form from './components/FormContainer'
 import Todos from './components/Todos'
 
 let ID = 1

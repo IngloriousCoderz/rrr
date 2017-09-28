@@ -1,25 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-class Form extends Component {
-  static propTypes = {
-    addTodo: PropTypes.func.isRequired
-  }
+const Form = ({ text, onChange, onSubmit }) => (
+  <form onSubmit={onSubmit}>
+    <input type="text" value={text} onChange={onChange} />
+  </form>
+)
 
-  onSubmit = event => {
-    const { addTodo } = this.props
-    event.preventDefault()
-    addTodo(this.input.value)
-    this.input.value = ''
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.onSubmit}>
-        <input type="text" ref={ref => (this.input = ref)} />
-      </form>
-    )
-  }
+Form.propTypes = {
+  text: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default Form
