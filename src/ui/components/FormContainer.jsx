@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import Form from './Form'
 
-class FormContainer extends Component {
+class FormContainer extends PureComponent {
   state = { text: '' }
 
   onChange = event => {
@@ -19,6 +19,10 @@ class FormContainer extends Component {
     addTodo(this.state.text)
     this.setText('')
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextState.text !== this.state.text
+  // }
 
   render() {
     return (

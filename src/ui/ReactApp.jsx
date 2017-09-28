@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, pure } from 'recompose'
 
 import Form from './components/FormContainer'
 import Todos from './components/Todos'
@@ -14,7 +14,8 @@ const enhance = compose(
   stylish({ padding: 20 }),
   withHandlers({
     addTodo: ({ addItem }) => text => addItem({ text })
-  })
+  }),
+  pure
 )
 
 const App = ({ data, addTodo }) => (
