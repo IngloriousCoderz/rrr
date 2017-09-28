@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import stylish from './stylish'
+import stylish from './hoc/stylish'
 
 const Form = ({ text, onChange, onSubmit }) => (
   <form onSubmit={onSubmit}>

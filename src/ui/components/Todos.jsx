@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import stylish from './stylish'
+import stylish from './hoc/stylish'
 
 const Todos = ({ todos }) => (
   <ul>{todos.map(({ id, text }) => <li key={id}>{text}</li>)}</ul>

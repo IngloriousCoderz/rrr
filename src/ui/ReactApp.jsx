@@ -1,33 +1,30 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import Form from './components/FormContainer'
 import Todos from './components/Todos'
-
-let ID = 1
+import dataDriven from './components/hoc/dataDriven'
 
 class App extends Component {
-  state = {
-    todos: [
-      { id: ID++, text: 'Todo 1' },
-      { id: ID++, text: 'Todo 2' },
-      { id: ID++, text: 'Todo 3' }
-    ]
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+    addItem: PropTypes.func.isRequired
   }
 
   addTodo = text => {
-    this.setState(prevState => ({
-      todos: [...this.state.todos, { id: ID++, text }]
-    }))
+    const { addItem } = this.props
+    addItem({ text })
   }
 
   render() {
+    const { data } = this.props
     return (
       <div id="app">
         <Form addTodo={this.addTodo} />
-        <Todos todos={this.state.todos} />
+        <Todos todos={data} />
       </div>
     )
   }
 }
 
-export default App
+export default dataDriven('http://localhost:3001/todos')(App)
