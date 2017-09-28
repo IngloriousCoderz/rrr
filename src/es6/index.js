@@ -2,10 +2,6 @@ import printGreeting, { sayHello, sayGoodbye } from './static-module'
 
 const whos = ['omniverse', 'megaverse', 'ultraverse']
 
-let unused = 'Remove me'
-
-whos = 2
-
 import('./dynamic-module').then(({ sayHello, default: printHello }) => {
   console.warn(sayHello())
   const [first, ...rest] = whos
