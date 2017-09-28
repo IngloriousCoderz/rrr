@@ -1,30 +1,32 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { compose, withHandlers } from 'recompose'
 
 import Form from './components/FormContainer'
 import Todos from './components/Todos'
 import dataDriven from './components/hoc/dataDriven'
+import stylish from './components/hoc/stylish'
 
-class App extends Component {
-  static propTypes = {
-    data: PropTypes.array.isRequired,
-    addItem: PropTypes.func.isRequired
-  }
+// const compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
 
-  addTodo = text => {
-    const { addItem } = this.props
-    addItem({ text })
-  }
+const enhance = compose(
+  dataDriven('http://localhost:3001/todos'),
+  stylish({ padding: 20 }),
+  withHandlers({
+    addTodo: ({ addItem }) => text => addItem({ text })
+  })
+)
 
-  render() {
-    const { data } = this.props
-    return (
-      <div id="app">
-        <Form addTodo={this.addTodo} />
-        <Todos todos={data} />
-      </div>
-    )
-  }
+const App = ({ data, addTodo }) => (
+  <div id="app">
+    <Form addTodo={addTodo} />
+    <Todos todos={data} />
+  </div>
+)
+
+App.propTypes = {
+  data: PropTypes.array.isRequired,
+  addTodo: PropTypes.func.isRequired
 }
 
-export default dataDriven('http://localhost:3001/todos')(App)
+export default enhance(App)

@@ -18,5 +18,7 @@ Todos.propTypes = {
 
 export default stylish({
   background: 'cornflowerblue',
+  border: '1px solid grey',
+  borderTop: null,
   boxShadow: '0 5px 5px grey'
 })(Todos)
