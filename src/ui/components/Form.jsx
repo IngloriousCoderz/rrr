@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import stylish from './stylish'
+
 const Form = ({ text, onChange, onSubmit }) => (
   <form onSubmit={onSubmit}>
     <input type="text" value={text} onChange={onChange} />
@@ -13,4 +15,7 @@ Form.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default Form
+export default stylish({
+  background: 'lightgrey',
+  border: '1px solid grey'
+})(Form)
