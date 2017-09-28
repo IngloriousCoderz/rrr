@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import Form from './components/Form'
+import Todos from './components/Todos'
+
 let ID = 1
 
 class App extends Component {
@@ -11,12 +14,6 @@ class App extends Component {
     ]
   }
 
-  onSubmit = event => {
-    event.preventDefault()
-    this.addTodo(this.input.value)
-    this.input.value = ''
-  }
-
   addTodo = text => {
     this.setState(prevState => ({
       todos: [...this.state.todos, { id: ID++, text }]
@@ -26,12 +23,8 @@ class App extends Component {
   render() {
     return (
       <div id="app">
-        <form onSubmit={this.onSubmit}>
-          <input type="text" ref={ref => (this.input = ref)} />
-        </form>
-        <ul>
-          {this.state.todos.map(({ id, text }) => <li key={id}>{text}</li>)}
-        </ul>
+        <Form addTodo={this.addTodo} />
+        <Todos todos={this.state.todos} />
       </div>
     )
   }
