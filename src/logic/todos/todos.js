@@ -1,7 +1,13 @@
 import { List } from 'immutable'
 import { createSelector } from 'reselect'
 
-import { ADD_TODO, REMOVE_TODO, TOGGLE_DONE, CLEAR } from './actionTypes'
+import {
+  SET_TODOS,
+  // ADD_TODO,
+  REMOVE_TODO,
+  TOGGLE_DONE,
+  CLEAR
+} from './actionTypes'
 import todo, * as fromTodo from './todo'
 
 const getTodos = state => state
@@ -13,13 +19,13 @@ const areAllDone = createSelector(
   state => console.log('(re)computing') || state.every(fromTodo.isDone)
 )
 
-let ID = 1
-
 const todos = (state = List(), action) => {
   const { type, payload } = action
   switch (type) {
-    case ADD_TODO:
-      return state.push({ id: ID++, text: payload })
+    case SET_TODOS:
+      return List(payload)
+    // case ADD_TODO:
+    //   return state.push(payload)
     case REMOVE_TODO:
       return state.filter(todo => todo.id !== payload)
     case TOGGLE_DONE:
@@ -34,4 +40,4 @@ const todos = (state = List(), action) => {
 }
 
 export default todos
-export { getTodos, isDone, areAllDone }
+export { getTodos, getTodo, isDone, areAllDone }
