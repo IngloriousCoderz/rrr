@@ -1,35 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, withHandlers, pure } from 'recompose'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
-import Form from './components/FormContainer'
-import Todos from './components/Todos'
-import dataDriven from './components/hoc/dataDriven'
-import stylish from './components/hoc/stylish'
+import TodosPage from './TodosPage'
+import ConfirmationPage from './ConfirmationPage'
 
-// const compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
-
-const enhance = compose(
-  dataDriven('http://localhost:3001/todos'),
-  stylish({ padding: 20 }),
-  withHandlers({
-    addTodo: ({ addItem }) => text => addItem({ text }),
-    toggleDone: ({ updateItem }) => (id, done) =>
-      updateItem(id, { done: !done })
-  }),
-  pure
+const App = () => (
+  <Router>
+    <div>
+      <nav>
+        <Link to="/">Todos</Link> | <Link to="/confirm-clear">Clear?</Link>
+      </nav>
+      <Route path="/" component={TodosPage} exact />
+      <Route path="/confirm-clear" component={ConfirmationPage} />
+    </div>
+  </Router>
 )
 
-const App = ({ data, addTodo, toggleDone }) => (
-  <div id="app">
-    <Form addTodo={addTodo} />
-    <Todos todos={data} toggleDone={toggleDone} />
-  </div>
-)
-
-App.propTypes = {
-  data: PropTypes.array.isRequired,
-  addTodo: PropTypes.func.isRequired
-}
-
-export default enhance(App)
+export default App
