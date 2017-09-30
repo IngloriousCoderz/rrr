@@ -9,13 +9,8 @@ import Todo from './Todo'
 import { getTodos } from '../../logic/todos'
 import { toggleDone } from '../../logic/todos/actions'
 
-const mapStateToProps = state => ({
-  todos: getTodos(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  toggleDone: id => dispatch(toggleDone(id))
-})
+const mapStateToProps = state => ({ todos: getTodos(state) })
+const mapDispatchToProps = { toggleDone }
 
 const enhance = compose(
   stylish({

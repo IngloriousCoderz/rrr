@@ -1,37 +1,25 @@
-import { List } from 'immutable'
-import { createSelector } from 'reselect'
+import { combineReducers } from 'redux'
 
-import { ADD_TODO, REMOVE_TODO, TOGGLE_DONE, CLEAR } from './actionTypes'
-import todo, * as fromTodo from './todo'
+import text, * as fromText from './text'
+import todos, * as fromTodos from './todos'
+import { ADD_TODO } from './actionTypes'
+import { setText, addTodo } from './actions'
 
-const getTodos = state => state
-const getTodo = (state, id) => state.find(todo => todo.id === id)
-const isDone = (state, id) => fromTodo.isDone(getTodo(state, id))
+export const getText = state => fromText.getText(state.text)
+export const getTodos = state => fromTodos.getTodos(state.todos)
 
-const areAllDone = createSelector(
-  getTodos,
-  state => console.log('(re)computing') || state.every(fromTodo.isDone)
-)
+const combined = combineReducers({ text, todos })
 
-let ID = 1
-
-const todos = (state = List(), action) => {
-  const { type, payload } = action
-  switch (type) {
+const rootReducer = (state, action) => {
+  switch (action.type) {
     case ADD_TODO:
-      return state.push({ id: ID++, text: payload })
-    case REMOVE_TODO:
-      return state.filter(todo => todo.id !== payload)
-    case TOGGLE_DONE:
-      return state.update(state.findIndex(todo => todo.id === payload), t =>
-        todo(t, action)
-      )
-    case CLEAR:
-      return state.clear()
+      return {
+        text: text(state.text, setText('')),
+        todos: todos(state.todos, addTodo(state.text))
+      }
     default:
-      return state
+      return combined(state, action)
   }
 }
 
-export default todos
-export { getTodos, isDone, areAllDone }
+export default rootReducer

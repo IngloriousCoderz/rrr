@@ -1,6 +1,6 @@
 import { List } from 'immutable'
 
-import todos, { isDone, areAllDone } from '.'
+import todos, { isDone, areAllDone } from './todos'
 import * as actions from './actions'
 
 describe('todos app', () => {
