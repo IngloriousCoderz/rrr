@@ -1,24 +1,29 @@
 import React from 'react'
 import { createStore, compose, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
 import { Provider } from 'react-redux'
 
 import rootReducer from '../logic/todos'
 import { fetchTodos } from '../logic/todos/actions'
+import rootSaga from '../logic/todos/sagas'
 import Form from './components/Form'
 import Todos from './components/Todos'
+
+const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
   rootReducer,
   compose(
-    applyMiddleware(thunk),
+    applyMiddleware(sagaMiddleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 )
 
+sagaMiddleware.run(rootSaga)
+
 store.dispatch(fetchTodos())
 
-const TodosPage = ({ addTodo, toggleDone }) => (
+const TodosPage = () => (
   <Provider store={store}>
     <div id="app">
       <Form />
