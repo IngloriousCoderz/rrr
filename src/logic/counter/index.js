@@ -16,12 +16,14 @@ const foocrement = () => ({
   type: 'foo'
 })
 
-const counter = (state = 0, action) => {
+const getCount = state => state.count
+
+const counter = (state = { count: 0 }, action) => {
   switch (action.type) {
     case INCREMENT:
-      return state + 1
+      return { count: state.count + 1 }
     case DECREMENT:
-      return state - 1
+      return { count: state.count - 1 }
     default:
       return state
   }
@@ -40,4 +42,4 @@ store.subscribe(listener)
 // store.dispatch(decrement())
 
 export default counter
-export { increment, decrement, foocrement }
+export { increment, decrement, foocrement, getCount }
