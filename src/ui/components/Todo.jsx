@@ -1,11 +1,6 @@
 import React from 'react'
 import { compose, withHandlers, pure } from 'recompose'
-
-const styles = {
-  done: {
-    textDecoration: 'line-through'
-  }
-}
+import styles from '../../app.scss'
 
 const enhance = compose(
   withHandlers({
@@ -15,7 +10,7 @@ const enhance = compose(
 )
 
 const Todo = ({ text, done, toggleDone }) => (
-  <li style={done ? styles.done : null} onClick={toggleDone}>
+  <li className={done ? styles.done : null} onClick={toggleDone}>
     {text}
   </li>
 )
