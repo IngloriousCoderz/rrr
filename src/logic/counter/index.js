@@ -1,5 +1,6 @@
 // import { createStore } from 'redux'
 const { createStore } = require('redux')
+const { Map } = require('immutable')
 
 const INCREMENT = 'INCREMENT'
 const DECREMENT = 'DECREMENT'
@@ -22,16 +23,16 @@ const setCount = count => ({
   payload: count
 })
 
-const getCount = state => state.count
+const getCount = state => state.get('count')
 
-const counter = (state = { count: 0 }, action) => {
+const counter = (state = Map({ count: 0 }), action) => {
   switch (action.type) {
     case INCREMENT:
-      return { count: state.count + 1 }
+      return state.set('count', state.get('count') + 1)
     case DECREMENT:
-      return { count: state.count - 1 }
+      return state.set('count', state.get('count') - 1)
     case SET_COUNT:
-      return action.payload !== state.count ? { count: action.payload } : state
+      return state.set('count', action.payload)
     default:
       return state
   }
