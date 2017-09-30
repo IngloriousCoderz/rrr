@@ -67,6 +67,12 @@ describe('todos app', () => {
 
     expect(isDone(state, 0)).toBe(true)
     expect(isDone(state, 1)).toBe(false)
+
     expect(areAllDone(state)).toBe(false)
+    expect(areAllDone(state)).toBe(false)
+
+    const newState = todos(state, actions.toggleDone(1))
+    expect(areAllDone(newState)).toBe(true)
+    expect(areAllDone(newState)).toBe(true)
   })
 })
