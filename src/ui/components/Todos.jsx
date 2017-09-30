@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import stylish from './hoc/stylish'
+import Todo from './Todo'
 
-const Todos = ({ todos }) => (
-  <ul>{todos.map(({ id, text }) => <li key={id}>{text}</li>)}</ul>
+const Todos = ({ todos, toggleDone }) => (
+  <ul>
+    {todos.map(({ id, text, done }) => (
+      <Todo key={id} id={id} text={text} done={done} toggleDone={toggleDone} />
+    ))}
+  </ul>
 )
 
 Todos.propTypes = {

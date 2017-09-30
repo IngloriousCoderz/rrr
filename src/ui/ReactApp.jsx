@@ -13,15 +13,17 @@ const enhance = compose(
   dataDriven('http://localhost:3001/todos'),
   stylish({ padding: 20 }),
   withHandlers({
-    addTodo: ({ addItem }) => text => addItem({ text })
+    addTodo: ({ addItem }) => text => addItem({ text }),
+    toggleDone: ({ updateItem }) => (id, done) =>
+      updateItem(id, { done: !done })
   }),
   pure
 )
 
-const App = ({ data, addTodo }) => (
+const App = ({ data, addTodo, toggleDone }) => (
   <div id="app">
     <Form addTodo={addTodo} />
-    <Todos todos={data} />
+    <Todos todos={data} toggleDone={toggleDone} />
   </div>
 )
 
