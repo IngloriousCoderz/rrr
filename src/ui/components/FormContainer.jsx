@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 
 import Form from './Form'
+import { addTodo } from '../../logic/todos/actions'
+
+const enhance = connect(null, { addTodo })
 
 class FormContainer extends PureComponent {
   state = { text: '' }
@@ -35,4 +39,4 @@ class FormContainer extends PureComponent {
   }
 }
 
-export default FormContainer
+export default enhance(FormContainer)
