@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import { compose, pure } from 'recompose'
 import { connect } from 'react-redux'
 
@@ -36,10 +37,11 @@ const Todos = ({ todos, toggleDone }) => (
 )
 
 Todos.propTypes = {
-  todos: PropTypes.arrayOf(
+  todos: ImmutablePropTypes.listOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired
+      text: PropTypes.string.isRequired,
+      done: PropTypes.boolean
     })
   ).isRequired
 }
